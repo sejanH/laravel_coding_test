@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('nid')->unique();
-            $table->string('email')->nullable()->unique();
-            $table->enum('status',['Not scheduled', 'Scheduled', 'Vaccinated'])->default('Not scheduled');
-            $table->timestamps();
+        Schema::create('user_vaccine_centers', function (Blueprint $table) {
+            $table->foreignId('user_id')->constrained('users', 'id')->unique();
+            $table->foreignId('center_id')->constrained('vaccine_centers', 'id');
+            $table->timestamp('registered_at')->useCurrent();
         });
     }
 
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('user_vaccine_centers');
     }
 };

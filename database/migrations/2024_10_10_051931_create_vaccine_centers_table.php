@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('vaccine_centers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('nid')->unique();
-            $table->string('email')->nullable()->unique();
-            $table->enum('status',['Not scheduled', 'Scheduled', 'Vaccinated'])->default('Not scheduled');
+            $table->string('center_name');
+            $table->integer('center_limit');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('vaccine_centers');
     }
 };
