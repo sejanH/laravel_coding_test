@@ -71,8 +71,10 @@ class VaccineRegistrationController extends Controller
         if($user){
             $status = $user->status;
             $user->center = UserVaccineCenterPivot::where('user_id',$user->id)->first();
-            if(strtotime($user->center->registered_at) >= now()->timestamp){
+            if($user->status != 'Vaccinated' && strtotime($user->center->registered_at) >= now()->timestamp){
                 $status = 'Vaccinated';
+                $user->status = 'Vaccinated';
+                $user->save();
             }
         }
         return view('home', ['user' => $user, 'status' => $status]);
